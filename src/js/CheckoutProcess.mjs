@@ -83,8 +83,13 @@ export default class CheckoutProcess {
     try {
       const res = await services.checkout(json);
       console.log(res);
+      // Limpiar el carrito de localStorage tras el éxito
+      localStorage.removeItem(this.key);
+      // Redirigir a la página de éxito
+      window.location.href = "/checkout/success.html";
     } catch (err) {
       console.log(err);
+      alert(JSON.stringify(err.message));
     }
   }
 }

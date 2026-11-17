@@ -12,8 +12,10 @@ export default class ProductDetails {
     this.product = await this.dataSource.findProductById(this.productId);
     this.renderProductDetails();
     
-    document.getElementById('addToCart')
-            .addEventListener('click', this.addProductToCart.bind(this));
+    const addToCartBtn = document.getElementById('addToCart');
+    if (addToCartBtn) {
+      addToCartBtn.addEventListener('click', this.addProductToCart.bind(this));
+    }
   }
   
   addProductToCart() {
@@ -28,17 +30,29 @@ export default class ProductDetails {
   }
   
   renderProductDetails() {
-    document.querySelector('#productName').innerText = this.product.Brand.Name;
-    document.querySelector('#productNameWithoutBrand').innerText = this.product.NameWithoutBrand;
+    const productName = document.querySelector('#productName');
+    if (productName) productName.innerText = this.product.Brand.Name;
+
+    const productNameWithoutBrand = document.querySelector('#productNameWithoutBrand');
+    if (productNameWithoutBrand) productNameWithoutBrand.innerText = this.product.NameWithoutBrand;
     
     // Cambiado de this.product.Image a PrimaryLarge según los requisitos de la API
     const productImage = document.querySelector('#product-image');
-    productImage.src = this.product.Images.PrimaryLarge;
-    productImage.alt = this.product.Name;
+    if (productImage) {
+      productImage.src = this.product.Images.PrimaryLarge;
+      productImage.alt = this.product.Name;
+    }
 
-    document.querySelector('#productCard__price').innerText = this.product.FinalPrice;
-    document.querySelector('#product-colorName').innerText = this.product.Colors[0].ColorName;
-    document.querySelector('#product-description').innerHTML = this.product.DescriptionHtmlSimple;
-    document.querySelector('#addToCart').dataset.id = this.product.Id;
+    const productPrice = document.querySelector('#productCard__price');
+    if (productPrice) productPrice.innerText = this.product.FinalPrice;
+
+    const productColor = document.querySelector('#product-colorName');
+    if (productColor) productColor.innerText = this.product.Colors[0].ColorName;
+
+    const productDesc = document.querySelector('#product-description');
+    if (productDesc) productDesc.innerHTML = this.product.DescriptionHtmlSimple;
+
+    const addToCartBtn = document.querySelector('#addToCart');
+    if (addToCartBtn) addToCartBtn.dataset.id = this.product.Id;
   }
 }

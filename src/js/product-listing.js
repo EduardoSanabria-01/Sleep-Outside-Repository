@@ -1,4 +1,4 @@
-import ProductData from './ProductData.mjs';
+import ExternalServices from './ExternalServices.mjs';
 import ProductList from './ProductList.mjs';
 import { loadHeaderFooter, getParam } from './utils.mjs';
 
@@ -6,8 +6,8 @@ loadHeaderFooter();
 
 const category = getParam('category');
 
-// 1. Instancia de ProductData
-const dataSource = new ProductData();
+// 1. Instancia de ExternalServices
+const dataSource = new ExternalServices();
 
 // 2. Elemento del DOM donde se renderizará la lista
 const listElement = document.querySelector('.product-list');

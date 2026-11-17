@@ -17,7 +17,7 @@ function packageItems(items) {
     id: item.Id,
     price: item.FinalPrice,
     name: item.Name,
-    quantity: 1,
+    quantity: item.Quantity || 1,
   }));
 }
 
@@ -33,7 +33,7 @@ export default class CheckoutProcess {
   }
 
   init() {
-    this.list = getLocalStorage(this.key);
+    this.list = getLocalStorage(this.key) || [];
     this.calculateItemSummary();
   }
 
@@ -46,14 +46,16 @@ export default class CheckoutProcess {
     );
     itemNumElement.innerText = this.list.length;
 
-    const amounts = this.list.map((item) => item.FinalPrice);
+    const amounts = this.list.map(
+      (item) => item.FinalPrice * (item.Quantity || 1)
+    );
     this.itemTotal = amounts.reduce((sum, item) => sum + item, 0);
     summaryElement.innerText = `$${this.itemTotal.toFixed(2)}`;
   }
 
   calculateOrderTotal() {
     this.tax = this.itemTotal * 0.06;
-    this.shipping = 10 + (this.list.length - 1) * 2;
+    this.shipping = this.list.length > 0 ? 10 + (this.list.length - 1) * 2 : 0;
     this.orderTotal =
       parseFloat(this.itemTotal) +
       parseFloat(this.tax) +
